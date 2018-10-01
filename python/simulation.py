@@ -50,3 +50,8 @@ def run(fields):
 def get_velocity(fields):
     print("Accessing velocity data!")
     return fields['velocity'].dat.data_ro
+
+
+def get_thickness(fields):
+    print("Accessing thickness data!")
+    return fields['thickness'].dat.data_ro

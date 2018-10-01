@@ -40,9 +40,9 @@ end subroutine
 
 
 subroutine simulation_get_velocity_data(simulation, state, velocity_data)
-    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity_data
     type(module_py), intent(in) :: simulation
     type(object), intent(in) :: state
+    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity_data
 
     ! local variables
     type(tuple) :: args
@@ -54,6 +54,24 @@ subroutine simulation_get_velocity_data(simulation, state, velocity_data)
     check_error(call_py(velocity_object, simulation, "get_velocity", args))
     check_error(cast(velocity_ndarray, velocity_object))
     check_error(velocity_ndarray%get_data(velocity_data, 'C'))
+end subroutine
+
+
+subroutine simulation_get_thickness_data(simulation, state, thickness_data)
+    type(module_py), intent(in) :: simulation
+    type(object), intent(in) :: state
+    real(kind=real64), dimension(:), pointer, intent(out) :: thickness_data
+
+    ! local variables
+    type(tuple) :: args
+    type(object) :: thickness_object
+    type(ndarray) :: thickness_ndarray
+
+    check_error(tuple_create(args, 1))
+    check_error(args%setitem(0, state))
+    check_error(call_py(thickness_object, simulation, "get_thickness", args))
+    check_error(cast(thickness_ndarray, thickness_object))
+    check_error(thickness_ndarray%get_data(thickness_data, 'C'))
 end subroutine
 
 
