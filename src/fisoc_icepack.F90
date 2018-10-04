@@ -4,6 +4,7 @@
 module fisoc_icepack
 
     use :: forpy_mod
+    use :: iso_c_binding, only: c_char
     use :: iso_fortran_env, only: real64
     implicit none
 
@@ -31,11 +32,22 @@ subroutine get_simulation_module(simulation)
 end subroutine
 
 
-subroutine simulation_initialize(simulation, state)
+subroutine simulation_initialize(simulation, config_filename, state)
     type(module_py), intent(in) :: simulation
+    character(len=*, kind=c_char) :: config_filename
     type(object), intent(out) :: state
 
-    check_error(call_py(state, simulation, "init"))
+    ! local variables
+    type(str) :: config_filename_str
+    type(tuple) :: args
+
+    check_error(tuple_create(args, 1))
+    check_error(str_create(config_filename_str, config_filename))
+    check_error(args%setitem(0, config_filename_str))
+    check_error(call_py(state, simulation, "init", args))
+
+    call args%destroy
+    call config_filename_str%destroy
 end subroutine
 
 

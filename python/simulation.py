@@ -1,11 +1,17 @@
-
+import json
 import firedrake
 import icepack, icepack.models
 from icepack.constants import gravity as g, rho_ice as ρ_I, rho_water as ρ_W, \
     glen_flow_law as n
 
 
-def init():
+def init(config_filename):
+    print("Config filename: {}".format(config_filename), flush=True)
+    with open(config_filename, 'r') as config_file:
+        config = json.load(config_file)
+
+    print("Config: {}".format(config), flush=True)
+
     Lx, Ly = 20e3, 20e3
     u0 = 100.0
     h0, dh = 500.0, 100.0

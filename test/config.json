@@ -1,0 +1,5 @@
+{
+    "mesh": "mesh.msh",
+    "thickness": "thickness.tif",
+    "velocity": "velocity.tif"
+}
