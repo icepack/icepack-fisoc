@@ -6,12 +6,12 @@ use :: iso_fortran_env, only: real64
 
 implicit none
 
-    type(simulation) :: s
-
-    ! for command-line arguments
+    ! Command-line arguments
     integer :: num_cmdline_args
     character(len=256, kind=c_char) :: cmdline_arg
 
+    ! Simulation object and pointers to field data
+    type(simulation) :: s
     real(kind=real64), dimension(:,:), pointer :: velocity
     real(kind=real64), dimension(:), pointer :: thickness
 

@@ -1,4 +1,6 @@
+import os
 import json
+import numpy as np
 import firedrake
 import icepack, icepack.models
 from icepack.constants import gravity as g, rho_ice as ρ_I, rho_water as ρ_W, \
@@ -6,13 +8,15 @@ from icepack.constants import gravity as g, rho_ice as ρ_I, rho_water as ρ_W, 
 
 
 def init(config_filename):
-    print("Config filename: {}".format(config_filename), flush=True)
+    path = os.path.dirname(os.path.abspath(config_filename))
     with open(config_filename, 'r') as config_file:
         config = json.load(config_file)
 
     print("Config: {}".format(config), flush=True)
 
-    Lx, Ly = 20e3, 20e3
+    mesh = firedrake.Mesh(os.path.join(path, config['mesh']))
+    Lx = np.max(mesh.coordinates.dat.data_ro[:, 0])
+
     u0 = 100.0
     h0, dh = 500.0, 100.0
     T = 254.15
@@ -24,7 +28,6 @@ def init(config_filename):
         du = Z * q * Lx * (h0/dh) / (n + 1)
         return u0 + du
 
-    mesh = firedrake.RectangleMesh(32, 32, Lx, Ly)
     x, y = firedrake.SpatialCoordinate(mesh)
 
     Q = firedrake.FunctionSpace(mesh, 'CG', 1)
