@@ -3,12 +3,27 @@
 
 module fisoc_icepack
 
-    use :: forpy_mod
-    use :: iso_c_binding, only: c_char
-    use :: iso_fortran_env, only: real64
-    implicit none
+use :: forpy_mod
+use :: iso_c_binding, only: c_char
+use :: iso_fortran_env, only: real64
+
+implicit none
+
+public :: simulation
+
+type :: simulation
+    type(module_py) :: python_module
+    type(object) :: state
+contains
+    procedure :: initialize => simulation_init
+    procedure :: destroy => simulation_destroy
+    procedure :: get_velocity => simulation_get_velocity
+    procedure :: get_thickness => simulation_get_thickness
+end type
+
 
 contains
+
 
 subroutine set_argv
     integer :: ierror
@@ -24,66 +39,86 @@ subroutine set_argv
 end subroutine
 
 
-subroutine get_simulation_module(simulation)
-    type(module_py), intent(out) :: simulation
-
-    call set_argv
-    check_error(import_py(simulation, "simulation"))
-end subroutine
-
-
-subroutine simulation_initialize(simulation, config_filename, state)
-    type(module_py), intent(in) :: simulation
+subroutine simulation_init(self, config_filename)
+    ! Arguments
+    class(simulation), intent(inout) :: self
     character(len=*, kind=c_char) :: config_filename
-    type(object), intent(out) :: state
 
-    ! local variables
+    ! Local variables
     type(str) :: config_filename_str
     type(tuple) :: args
 
+    ! Initialize the fortran <-> interface
+    check_error(forpy_initialize())
+
+    ! Set `sys.argv` to be empty so that firedrake won't seg fault when it goes
+    ! looking for this attribute
+    call set_argv
+
+    ! Import the Python simulation module
+    check_error(import_py(self%python_module, "simulation"))
+
+    ! Pass the pathname of the config file to Python, from which it will
+    ! initialize the simulation state
     check_error(tuple_create(args, 1))
-    check_error(str_create(config_filename_str, config_filename))
+    check_error(str_create(config_filename_str, trim(config_filename)))
     check_error(args%setitem(0, config_filename_str))
-    check_error(call_py(state, simulation, "init", args))
+    check_error(call_py(self%state, self%python_module, "init", args))
 
     call args%destroy
     call config_filename_str%destroy
 end subroutine
 
 
-subroutine simulation_get_velocity_data(simulation, state, velocity_data)
-    type(module_py), intent(in) :: simulation
-    type(object), intent(in) :: state
-    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity_data
+subroutine simulation_destroy(self)
+    class(simulation), intent(inout) :: self
 
-    ! local variables
-    type(tuple) :: args
-    type(object) :: velocity_object
-    type(ndarray) :: velocity_ndarray
+    call self%state%destroy
+    call self%python_module%destroy
 
-    check_error(tuple_create(args, 1))
-    check_error(args%setitem(0, state))
-    check_error(call_py(velocity_object, simulation, "get_velocity", args))
-    check_error(cast(velocity_ndarray, velocity_object))
-    check_error(velocity_ndarray%get_data(velocity_data, 'C'))
+    call forpy_finalize
 end subroutine
 
 
-subroutine simulation_get_thickness_data(simulation, state, thickness_data)
-    type(module_py), intent(in) :: simulation
-    type(object), intent(in) :: state
-    real(kind=real64), dimension(:), pointer, intent(out) :: thickness_data
+subroutine simulation_get_velocity(self, velocity)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity
 
-    ! local variables
+    ! Local variables
     type(tuple) :: args
-    type(object) :: thickness_object
-    type(ndarray) :: thickness_ndarray
+    type(object) :: obj
+    type(ndarray) :: array
 
     check_error(tuple_create(args, 1))
-    check_error(args%setitem(0, state))
-    check_error(call_py(thickness_object, simulation, "get_thickness", args))
-    check_error(cast(thickness_ndarray, thickness_object))
-    check_error(thickness_ndarray%get_data(thickness_data, 'C'))
+    check_error(args%setitem(0, self%state))
+    check_error(call_py(obj, self%python_module, "get_velocity", args))
+    check_error(cast(array, obj))
+    check_error(array%get_data(velocity, 'C'))
+
+    call args%destroy
+    call obj%destroy
+end subroutine
+
+
+subroutine simulation_get_thickness(self, thickness)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:), pointer, intent(out) :: thickness
+
+    ! Local variables
+    type(tuple) :: args
+    type(object) :: obj
+    type(ndarray) :: array
+
+    check_error(tuple_create(args, 1))
+    check_error(args%setitem(0, self%state))
+    check_error(call_py(obj, self%python_module, "get_thickness", args))
+    check_error(cast(array, obj))
+    check_error(array%get_data(thickness, 'C'))
+
+    call args%destroy
+    call obj%destroy
 end subroutine
 
 
