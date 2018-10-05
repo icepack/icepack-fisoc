@@ -1,5 +1,6 @@
 {
-    "mesh": "mesh.msh",
-    "thickness": "thickness.tif",
-    "velocity": "velocity.tif"
+    "mesh": "data/mesh.msh",
+    "thickness": "data/h.txt",
+    "velocity_x": "data/u.txt",
+    "velocity_y": "data/v.txt"
 }

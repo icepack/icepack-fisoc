@@ -3,6 +3,7 @@ import json
 import numpy as np
 import firedrake
 import icepack, icepack.models
+from icepack.grid import arcinfo
 from icepack.constants import gravity as g, rho_ice as ρ_I, rho_water as ρ_W, \
     glen_flow_law as n
 
@@ -15,27 +16,19 @@ def init(config_filename):
     print("Config: {}".format(config), flush=True)
 
     mesh = firedrake.Mesh(os.path.join(path, config['mesh']))
-    Lx = np.max(mesh.coordinates.dat.data_ro[:, 0])
-
-    u0 = 100.0
-    h0, dh = 500.0, 100.0
-    T = 254.15
-
-    def exact_u(x):
-        ρ = ρ_I * (1 - ρ_I / ρ_W)
-        Z = icepack.rate_factor(T) * (ρ * g * h0 / 4)**n
-        q = 1 - (1 - (dh/h0) * (x/Lx))**(n + 1)
-        du = Z * q * Lx * (h0/dh) / (n + 1)
-        return u0 + du
-
-    x, y = firedrake.SpatialCoordinate(mesh)
 
     Q = firedrake.FunctionSpace(mesh, 'CG', 1)
-    h = firedrake.interpolate(h0 - dh * x / Lx, Q)
+    V = firedrake.VectorFunctionSpace(mesh, 'CG', 1)
+
+    thickness = arcinfo.read(os.path.join(path, config['thickness']))
+    h = icepack.interpolate(thickness, Q)
+
+    T = 254.15
     A = firedrake.interpolate(firedrake.Constant(icepack.rate_factor(T)), Q)
 
-    V = firedrake.VectorFunctionSpace(mesh, 'CG', 1)
-    u = firedrake.interpolate(firedrake.as_vector((exact_u(x), 0)), V)
+    velocity_x = arcinfo.read(os.path.join(path, config['velocity_x']))
+    velocity_y = arcinfo.read(os.path.join(path, config['velocity_y']))
+    u = icepack.interpolate(lambda x: (velocity_x(x), velocity_y(x)), V)
 
     print("Done initializing!")
 
