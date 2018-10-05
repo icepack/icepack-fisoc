@@ -30,23 +30,33 @@ def init(config_filename):
     velocity_y = arcinfo.read(os.path.join(path, config['velocity_y']))
     u = icepack.interpolate(lambda x: (velocity_x(x), velocity_y(x)), V)
 
+    state = {
+        'velocity': u,
+        'thickness': h,
+        'fluidity': A,
+        'dirichlet_ids': config['dirichlet_ids'],
+        'side_wall_ids': config['side_wall_ids']
+    }
+
     print("Done initializing!")
+    return state
 
-    return dict(velocity=u, thickness=h, fluidity=A)
 
+def diagnostic_solve(state):
+    h, u = state['thickness'], state['velocity']
+    A = state['fluidity']
 
-def run(fields):
-    h, u = fields['thickness'], fields['velocity']
-    A = fields['fluidity']
+    opts = {
+        'dirichlet_ids': state['dirichlet_ids'],
+        'side_wall_ids': state['side_wall_ids'],
+        'tol': 1e-12
+    }
 
-    opts = dict(dirichlet_ids=[1], side_wall_ids=[3, 4], tol=1e-12)
     ice_shelf = icepack.models.IceShelf()
     u.assign(ice_shelf.diagnostic_solve(u0=u, h=h, A=A, **opts))
 
-    print(firedrake.norm(u))
-    print("Done running!")
-
-    return fields
+    print("Diagnostic solve complete!")
+    return state
 
 
 def get_velocity(fields):

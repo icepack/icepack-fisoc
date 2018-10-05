@@ -29,6 +29,10 @@ implicit none
     write(*, *) size(thickness)
     write(*, *) thickness(1)
 
+    call s%diagnostic_solve
+
+    write(*, *) velocity(1, 1), velocity(2, 1)
+
     call s%destroy
 
 end program

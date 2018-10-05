@@ -19,6 +19,7 @@ contains
     procedure :: destroy => simulation_destroy
     procedure :: get_velocity => simulation_get_velocity
     procedure :: get_thickness => simulation_get_thickness
+    procedure :: diagnostic_solve => simulation_diagnostic_solve
 end type
 
 
@@ -119,6 +120,23 @@ subroutine simulation_get_thickness(self, thickness)
 
     call args%destroy
     call obj%destroy
+end subroutine
+
+
+subroutine simulation_diagnostic_solve(self)
+    ! Arguments
+    class(simulation), intent(inout) :: self
+
+    ! Local variables
+    type(tuple) :: args
+
+    associate(state => self%state, python_module => self%python_module)
+        check_error(tuple_create(args, 1))
+        check_error(args%setitem(0, state))
+        check_error(call_py(state, python_module, "diagnostic_solve", args))
+    end associate
+
+    call args%destroy
 end subroutine
 
 

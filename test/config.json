@@ -1,5 +1,7 @@
 {
     "mesh": "data/mesh.msh",
+    "dirichlet_ids": [4],
+    "side_wall_ids": [1, 3],
     "thickness": "data/h.txt",
     "velocity_x": "data/u.txt",
     "velocity_y": "data/v.txt"
