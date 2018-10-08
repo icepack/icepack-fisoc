@@ -19,6 +19,8 @@ contains
     procedure :: destroy => simulation_destroy
     procedure :: get_velocity => simulation_get_velocity
     procedure :: get_thickness => simulation_get_thickness
+    procedure :: get_accumulation_rate => simulation_get_accumulation_rate
+    procedure :: get_melt_rate => simulation_get_melt_rate
     procedure :: diagnostic_solve => simulation_diagnostic_solve
 end type
 
@@ -102,10 +104,11 @@ subroutine simulation_get_velocity(self, velocity)
 end subroutine
 
 
-subroutine simulation_get_thickness(self, thickness)
+subroutine get_scalar_field(self, field_name, field)
     ! Arguments
     class(simulation), intent(in) :: self
-    real(kind=real64), dimension(:), pointer, intent(out) :: thickness
+    character(len=*), intent(in) :: field_name
+    real(kind=real64), dimension(:), pointer, intent(out) :: field
 
     ! Local variables
     type(tuple) :: args
@@ -114,12 +117,39 @@ subroutine simulation_get_thickness(self, thickness)
 
     check_error(tuple_create(args, 1))
     check_error(args%setitem(0, self%state))
-    check_error(call_py(obj, self%python_module, "get_thickness", args))
+    check_error(call_py(obj, self%python_module, "get_" // field_name, args))
     check_error(cast(array, obj))
-    check_error(array%get_data(thickness, 'C'))
+    check_error(array%get_data(field, 'C'))
 
     call args%destroy
     call obj%destroy
+end subroutine
+
+
+subroutine simulation_get_thickness(self, thickness)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:), pointer, intent(out) :: thickness
+
+    call get_scalar_field(self, "thickness", thickness)
+end subroutine
+
+
+subroutine simulation_get_accumulation_rate(self, accumulation_rate)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:), pointer, intent(out) :: accumulation_rate
+
+    call get_scalar_field(self, "accumulation_rate", accumulation_rate)
+end subroutine
+
+
+subroutine simulation_get_melt_rate(self, melt_rate)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:), pointer, intent(out) :: melt_rate
+
+    call get_scalar_field(self, "melt_rate", melt_rate)
 end subroutine
 
 

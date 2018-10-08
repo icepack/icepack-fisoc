@@ -13,7 +13,7 @@ implicit none
     ! Simulation object and pointers to field data
     type(simulation) :: s
     real(kind=real64), dimension(:,:), pointer :: velocity
-    real(kind=real64), dimension(:), pointer :: thickness
+    real(kind=real64), dimension(:), pointer :: thickness, accumulation, melt
 
     num_cmdline_args = command_argument_count()
     if (num_cmdline_args /= 1) call exit(1)
@@ -32,6 +32,11 @@ implicit none
     call s%diagnostic_solve
 
     write(*, *) velocity(1, 1), velocity(2, 1)
+
+    call s%get_accumulation_rate(accumulation)
+    call s%get_melt_rate(melt)
+
+    write(*, *) accumulation(1), melt(1)
 
     call s%destroy
 

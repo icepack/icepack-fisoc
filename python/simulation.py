@@ -30,9 +30,16 @@ def init(config_filename):
     velocity_y = arcinfo.read(os.path.join(path, config['velocity_y']))
     u = icepack.interpolate(lambda x: (velocity_x(x), velocity_y(x)), V)
 
+    accumulation = arcinfo.read(os.path.join(path, config['accumulation']))
+    melt = arcinfo.read(os.path.join(path, config['melt']))
+    a = icepack.interpolate(accumulation, Q)
+    m = icepack.interpolate(melt, Q)
+
     state = {
         'velocity': u,
         'thickness': h,
+        'accumulation_rate': a,
+        'melt_rate': m,
         'fluidity': A,
         'dirichlet_ids': config['dirichlet_ids'],
         'side_wall_ids': config['side_wall_ids']
@@ -67,3 +74,13 @@ def get_velocity(fields):
 def get_thickness(fields):
     print("Accessing thickness data!")
     return fields['thickness'].dat.data_ro
+
+
+def get_accumulation_rate(fields):
+    print ("Accessing accumulation rate data!")
+    return fields['accumulation_rate'].dat.data_ro
+
+
+def get_melt_rate(fields):
+    print("Accessing melt rate data!")
+    return fields['melt_rate'].dat.data_ro
