@@ -66,6 +66,11 @@ def diagnostic_solve(state):
     return state
 
 
+def get_mesh_coordinates(fields):
+    print("Accessing mesh coordinates!")
+    return fields['velocity'].ufl_domain().coordinates.dat.data_ro
+
+
 def get_velocity(fields):
     print("Accessing velocity data!")
     return fields['velocity'].dat.data_ro

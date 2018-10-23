@@ -17,6 +17,7 @@ type :: simulation
 contains
     procedure :: initialize => simulation_init
     procedure :: destroy => simulation_destroy
+    procedure :: get_mesh_coordinates => simulation_get_mesh_coordinates
     procedure :: get_velocity => simulation_get_velocity
     procedure :: get_thickness => simulation_get_thickness
     procedure :: get_accumulation_rate => simulation_get_accumulation_rate
@@ -83,27 +84,6 @@ subroutine simulation_destroy(self)
 end subroutine
 
 
-subroutine simulation_get_velocity(self, velocity)
-    ! Arguments
-    class(simulation), intent(in) :: self
-    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity
-
-    ! Local variables
-    type(tuple) :: args
-    type(object) :: obj
-    type(ndarray) :: array
-
-    check_error(tuple_create(args, 1))
-    check_error(args%setitem(0, self%state))
-    check_error(call_py(obj, self%python_module, "get_velocity", args))
-    check_error(cast(array, obj))
-    check_error(array%get_data(velocity, 'C'))
-
-    call args%destroy
-    call obj%destroy
-end subroutine
-
-
 subroutine get_scalar_field(self, field_name, field)
     ! Arguments
     class(simulation), intent(in) :: self
@@ -123,6 +103,46 @@ subroutine get_scalar_field(self, field_name, field)
 
     call args%destroy
     call obj%destroy
+end subroutine
+
+
+subroutine get_vector_field(self, field_name, field)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    character(len=*), intent(in) :: field_name
+    real(kind=real64), dimension(:,:), pointer, intent(out) :: field
+
+    ! Local variables
+    type(tuple) :: args
+    type(object) :: obj
+    type(ndarray) :: array
+
+    check_error(tuple_create(args, 1))
+    check_error(args%setitem(0, self%state))
+    check_error(call_py(obj, self%python_module, "get_" // field_name, args))
+    check_error(cast(array, obj))
+    check_error(array%get_data(field, 'C'))
+
+    call args%destroy
+    call obj%destroy
+end subroutine
+
+
+subroutine simulation_get_mesh_coordinates(self, coordinates)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:,:), pointer, intent(out) :: coordinates
+
+    call get_vector_field(self, "mesh_coordinates", coordinates)
+end subroutine
+
+
+subroutine simulation_get_velocity(self, velocity)
+    ! Arguments
+    class(simulation), intent(in) :: self
+    real(kind=real64), dimension(:,:), pointer, intent(out) :: velocity
+
+    call get_vector_field(self, "velocity", velocity)
 end subroutine
 
 

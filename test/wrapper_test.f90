@@ -12,7 +12,7 @@ implicit none
 
     ! Simulation object and pointers to field data
     type(simulation) :: s
-    real(kind=real64), dimension(:,:), pointer :: velocity
+    real(kind=real64), dimension(:,:), pointer :: coordinates, velocity
     real(kind=real64), dimension(:), pointer :: thickness, accumulation, melt
 
     num_cmdline_args = command_argument_count()
@@ -20,6 +20,10 @@ implicit none
     call get_command_argument(1, cmdline_arg)
 
     call s%initialize(cmdline_arg)
+
+    call s%get_mesh_coordinates(coordinates)
+    write(*, *) size(coordinates, 1), size(coordinates, 2)
+    write(*, *) coordinates(1, 1), coordinates(2, 1)
 
     call s%get_velocity(velocity)
     write(*, *) size(velocity, 1), size(velocity, 2)
