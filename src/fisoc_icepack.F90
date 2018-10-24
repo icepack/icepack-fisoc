@@ -23,6 +23,7 @@ contains
     procedure :: get_accumulation_rate => simulation_get_accumulation_rate
     procedure :: get_melt_rate => simulation_get_melt_rate
     procedure :: diagnostic_solve => simulation_diagnostic_solve
+    procedure :: prognostic_solve => simulation_prognostic_solve
 end type
 
 
@@ -184,6 +185,25 @@ subroutine simulation_diagnostic_solve(self)
         check_error(tuple_create(args, 1))
         check_error(args%setitem(0, state))
         check_error(call_py(state, python_module, "diagnostic_solve", args))
+    end associate
+
+    call args%destroy
+end subroutine
+
+
+subroutine simulation_prognostic_solve(self, dt)
+    ! Arguments
+    class(simulation), intent(inout) :: self
+    real(kind=real64), intent(in) :: dt
+
+    ! Local variables
+    type(tuple) :: args
+
+    associate(state => self%state, python_module => self%python_module)
+        check_error(tuple_create(args, 2))
+        check_error(args%setitem(0, state))
+        check_error(args%setitem(1, dt))
+        check_error(call_py(state, python_module, "prognostic_solve", args))
     end associate
 
     call args%destroy

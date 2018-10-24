@@ -37,10 +37,12 @@ def init(config_filename):
 
     state = {
         'velocity': u,
+        'inflow_thickness': h.copy(deepcopy=True),
         'thickness': h,
         'accumulation_rate': a,
         'melt_rate': m,
         'fluidity': A,
+        'model': icepack.models.IceShelf(),
         'dirichlet_ids': config['dirichlet_ids'],
         'side_wall_ids': config['side_wall_ids']
     }
@@ -59,10 +61,23 @@ def diagnostic_solve(state):
         'tol': 1e-12
     }
 
-    ice_shelf = icepack.models.IceShelf()
-    u.assign(ice_shelf.diagnostic_solve(u0=u, h=h, A=A, **opts))
+    model = state['model']
+    u.assign(model.diagnostic_solve(u0=u, h=h, A=A, **opts))
 
     print("Diagnostic solve complete!")
+    return state
+
+
+def prognostic_solve(state, dt):
+    h, h_inflow = state['thickness'], state['inflow_thickness']
+    accumulation, melt = state['accumulation_rate'], state['melt_rate']
+    a = accumulation - melt
+    u = state['velocity']
+
+    model = state['model']
+    h.assign(model.prognostic_solve(dt, h0=h, h_inflow=h_inflow, u=u, a=a))
+
+    print("Prognostic solve complete!")
     return state
 
 

@@ -5,6 +5,7 @@ use :: iso_c_binding, only: c_char
 use :: iso_fortran_env, only: real64
 
 implicit none
+    real(kind=real64) :: dt
 
     ! Command-line arguments
     integer :: num_cmdline_args
@@ -45,6 +46,9 @@ implicit none
     call s%get_melt_rate(melt)
 
     write(*, *) accumulation(1), melt(1)
+
+    dt = 1.0/12
+    call s%prognostic_solve(dt)
 
     call s%destroy
 
