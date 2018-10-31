@@ -1,5 +1,5 @@
 
-#define check_error(ierror) if (ierror /= 0) then; call err_print; stop; endif
+#define check_error(ierror) if (ierror /= 0) then; call err_print; call exit(1); endif
 
 module fisoc_icepack
 

@@ -16,7 +16,11 @@ implicit none
     real(kind=real64), dimension(:), pointer :: thickness, accumulation, melt
 
     num_cmdline_args = command_argument_count()
-    if (num_cmdline_args /= 1) call exit(1)
+    if (num_cmdline_args /= 1) then
+        write(*, *) "Missing command-line argument for path to config file."
+        write(*, *) "Config file is at icepack-fisoc/test/config.json"
+        call exit(1)
+    endif
     call get_command_argument(1, cmdline_arg)
 
     call s%initialize(cmdline_arg)
