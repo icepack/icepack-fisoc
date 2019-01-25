@@ -1,13 +1,13 @@
-FROM buildpack-deps:stretch
+FROM icepack/firedrake:buster
 
-ENV ESMF_DIR /esmf
+RUN sudo apt-get install -yq libnetcdff6 libnetcdff-dev
 
-RUN apt-get update && apt-get -yq install \
-    gfortran \
-    libopenmpi2 \
-    libopenmpi-dev
+ENV ESMF_DIR=/home/user/esmf \
+    ESMF_COMM=openmpi \
+    EMSF_PIO=internal \
+    ESMF_F90LINKLIBS="-lmpi_cxx"
 
-RUN curl -O http://www.earthsystemmodeling.org/esmf_releases/non_public/ESMF_7_0_2/esmf_7_0_2_src.tar.gz && \
-    tar xvf esmf_7_0_2_src.tar.gz && \
-    cd esmf && make
-
+RUN git clone https://git.code.sf.net/p/esmf/esmf esmf && \
+    cd esmf && \
+    git checkout ec966d2e5284f644a069798790045b53f135d2cb && \
+    make
