@@ -60,3 +60,7 @@ ENV LD_LIBRARY_PATH="${LIBDIR}:${LD_LIBRARY_PATH}"
 
 RUN mkdir bin
 RUN cd FISOC && make && make install
+
+COPY fool-roms/FISOC_config.rc /home/user/FISOC_config.rc
+COPY fool-roms/isomip_grd.v6.2km.nc /home/user/isomip_grd.v6.2km.nc
+COPY fool-roms/ocean3.grd.v02.nc /home/user/ocean3.grd.v02.nc
