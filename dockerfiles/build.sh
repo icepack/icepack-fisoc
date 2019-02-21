@@ -5,7 +5,7 @@ if [ ! -d FISOC ]; then
 fi
 
 if [ ! -d ROMSIceShelf ]; then
-    git clone https://github.com/bkgf/ROMSIceShelf_devel.git ROMSIceShelf
+    git clone --branch mack_local https://github.com/bkgf/ROMSIceShelf_devel.git ROMSIceShelf
 fi
 
 docker build --tag dummy-dummy --file dummy-dummy/Dockerfile .
