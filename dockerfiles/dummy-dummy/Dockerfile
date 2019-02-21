@@ -2,7 +2,7 @@ FROM esmf
 
 COPY FISOC /home/user/FISOC
 
-COPY dummy/FISOC_config.rc /home/user/FISOC_config.rc
+COPY dummy-dummy/FISOC_config.rc /home/user/FISOC_config.rc
 
 RUN sudo chown -R user:user FISOC .[^.]*
 
