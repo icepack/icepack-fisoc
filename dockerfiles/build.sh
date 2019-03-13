@@ -1,7 +1,7 @@
 docker build --tag esmf --file esmf/Dockerfile .
 
 if [ ! -d FISOC ]; then
-    git clone https://github.com/RupertGladstone/FISOC.git
+    git clone --branch devel https://github.com/RupertGladstone/FISOC.git
 fi
 
 if [ ! -d ROMSIceShelf ]; then
