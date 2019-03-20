@@ -88,6 +88,7 @@ RUN mkdir bin
 RUN cd FISOC && make && make install
 
 COPY elmer-roms/FISOC_config.rc ./FISOC_config.rc
+COPY FISOC/examples/Ex5_BensBox_gl/FISOC_Ex5a.sif ./FISOC_Ex5a.sif
 COPY FISOC/examples/Ex5_BensBox_gl/FISOC_Ex5b.sif ./FISOC_Ex5b.sif
 COPY elmer-roms/ocean_iceshelf2d_toy_gl.in ./ocean_iceshelf2d_toy_gl.in
 RUN sudo chown -R user:user ./ocean_iceshelf2d_toy_gl.in
@@ -99,3 +100,7 @@ RUN ElmerGrid 1 2 FISOC_Ex5.grid && \
 COPY FISOC/examples/Ex1_LongThinMIS/FISOC_Elmer_geometries.f90 ./FISOC_Elmer_geometries.f90
 RUN elmerf90 FISOC_Elmer_geometries.f90 -o FISOC_Elmer_geometries.so && \
     sudo mv FISOC_Elmer_geometries.so "${ELMER_HOME}/share/elmersolver/lib/"
+
+# Using elmer only, spin up the ice temperature
+RUN echo FISOC_Ex5a.sif > ELMERSOLVER_STARTINFO && \
+    mpirun -np 4 ElmerSolver
