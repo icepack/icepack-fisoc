@@ -87,7 +87,7 @@ ENV LD_LIBRARY_PATH="${ELMER_HOME}/lib/elmersolver:${ELMER_HOME}/share/elmersolv
 RUN mkdir bin
 RUN cd FISOC && make && make install
 
-COPY FISOC/examples/Ex5_BensBox_gl/FISOC_config.rc ./FISOC_config.rc
+COPY elmer-roms/FISOC_config.rc ./FISOC_config.rc
 COPY FISOC/examples/Ex5_BensBox_gl/FISOC_Ex5b.sif ./FISOC_Ex5b.sif
 COPY elmer-roms/ocean_iceshelf2d_toy_gl.in ./ocean_iceshelf2d_toy_gl.in
 RUN sudo chown -R user:user ./ocean_iceshelf2d_toy_gl.in
