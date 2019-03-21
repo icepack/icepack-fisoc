@@ -36,7 +36,7 @@
   ISM_stdoutFile:     ./EI_out
   ISM_gridType:       ESMF_mesh
   ISM2OM_regrid:      ESMF_REGRIDMETHOD_NEAREST_STOD
-#  ISM_ProjVector:     0. 0. -1.
+  ISM_ProjVector:     0. 0. -1.
   ISM_BodyID:         2
 
   OM_configFile:      ocean_iceshelf2d_toy_gl.in
