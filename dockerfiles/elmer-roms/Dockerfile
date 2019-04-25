@@ -103,4 +103,4 @@ RUN elmerf90 FISOC_Elmer_geometries.f90 -o FISOC_Elmer_geometries.so && \
 
 # Using elmer only, spin up the ice temperature
 RUN echo FISOC_Ex5a.sif > ELMERSOLVER_STARTINFO && \
-    mpirun -np 4 ElmerSolver
+    mpirun -np 4 --oversubscribe ElmerSolver
