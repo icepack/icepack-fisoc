@@ -1,43 +1,16 @@
 # icepack-fisoc
 
-This library contains routines to make the glacier flow modeling library [icepack](https://github.com/icepack/icepack) usable from the Framework for Ice Sheet-Ocean Coupling (FISOC).
+This repo is for making the glacier flow modeling library [icepack](https://github.com/icepack/icepack) usable from the Framework for Ice Sheet-Ocean Coupling (FISOC).
+The repo consists of a set of dockerfiles and FISOC configuration scripts that enable running experiments with FISOC on any machine in a way that the environment appears the same on each.
 
-
-### Contents
-
-This repository has two big parts: a Fortran wrapper library for icepack, and a suite of tools for running coupled ice sheet-ocean models using FISOC inside docker containers.
-
-* `python`: a module called `simulation.py` that wraps the main functionalities of icepack into the bare minimum number of routines necessary for coupled modeling of an ice shelf and the ocean
-* `src`: the source code for a Fortran library that wraps all of the functions defined in the `simulation.py` module, and allows reading the values of the ice thickness and other variables from Fortran
-* `test`: a Fortran unit test program to check that the wrapper for the python code works
-* `dockerfiles`: for building Docker images, which we use to run experiments with FISOC on various machines in a way that the environment appears the same on each
-
-##### Fortran wrapper
-
-See these [instructions](https://icepack.github.io/installation.html) for how to install icepack and [firedrake](https://www.firedrakeproject.org), the finite element modeling library that icepack is built on.
-To use the Fortran wrapper for icepack, you will need to have the firedrake virtual environment activated in your current terminal session first.
-The wrapper library is built using CMake:
-
-    mkdir build
-    cd build
-    cmake ..
-    make
-
-To test that everything is working correctly, run
-
-    make test
-
-from the build directory.
-
-
-##### Containerization
-
-To make it easier to run coupled ice sheet-ocean models through FISOC, we have included a set of scripts for building Docker images under the folder `dockerfiles`.
+The scripts for building these Docker images are under the folder `dockerfiles`.
 The file `dockerfiles/build.sh` will clone all the necessary dependencies and build docker images for each model configuration we've used.
+
+### Docker cheatsheet
 
 Build a docker image from a `Dockerfile` in a given directory:
 
-    docker build --tage <username>/<image name>:<image version tag> <directory of Dockerfile>
+    docker build --tag <username>/<image name>:<image version tag> <directory of Dockerfile>
 
 Start a container interactively so you can run commands at a terminal inside it:
 
