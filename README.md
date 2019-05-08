@@ -3,8 +3,8 @@
 This repo is for making the glacier flow modeling library [icepack](https://github.com/icepack/icepack) usable from the Framework for Ice Sheet-Ocean Coupling (FISOC).
 The repo consists of a set of dockerfiles and FISOC configuration scripts that enable running experiments with FISOC on any machine in a way that the environment appears the same on each.
 
-The scripts for building these Docker images are under the folder `dockerfiles`.
-The file `dockerfiles/build.sh` will clone all the necessary dependencies and build docker images for each model configuration we've used.
+The scripts for building each docker image are in separate subfolders with the naming scheme `<ice sheet model>-<ocean model>`, so for example the folder `elmer-roms` is a configuration for coupling ElmerIce to ROMS.
+The file `build.sh` will clone all the necessary dependencies and build docker images for each model configuration we've used.
 
 ### Docker cheatsheet
 
