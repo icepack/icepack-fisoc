@@ -186,7 +186,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 788400 !five years  157680  ! One year
+      NTIMES == 6307200 ! 20 years
           DT == 100d0 
      NDTFAST == 20
 
@@ -209,7 +209,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == 0
    LcycleRST == T
-        NRST == 4320  !10 daily
+        NRST == 8640  !10 daily
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -217,13 +217,13 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 4320
+        NHIS == 8640
      NDEFHIS == 86400
       NTSAVG == 1
-        NAVG == 4320
+        NAVG == 8640
      NDEFAVG == 86400
       NTSDIA == 1
-        NDIA == 4320
+        NDIA == 8640
      NDEFDIA == 86400
 
 ! Output tangent linear and adjoint models parameters.
@@ -760,8 +760,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /nobackupp2/slmack/Forcing/isomip_grd.v3.2km.nc
-     ININAME == ocean_ini.nc
+     GRDNAME == Applications/ROMSsmoothing/isomip_grd.v8.1km.nc
+     ININAME == Applications/ROMSsmoothing/isomip_075_rst.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
