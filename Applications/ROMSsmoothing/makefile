@@ -63,8 +63,7 @@
 #  If application header files is not located in "ROMS/Include",
 #  provide an alternate directory FULL PATH.
 
-     MY_HEADER_DIR ?= /Volumes/insar10/roms/ROMSIceShelf_devel/Apps/FOOLexample/
-#     MY_HEADER_DIR ?= /u/slmack/ROMSIceShelf_devel/Apps/PIG
+     MY_HEADER_DIR ?= Applications/ROMSsmoothing/
 
 #  If your application requires analytical expressions and they are
 #  not located in "ROMS/Functionals", provide an alternate directory.
@@ -75,7 +74,6 @@
 #  biology model header file (like fennel.h, nemuro.h, ecosim.h, etc).
 
      MY_ANALYTICAL_DIR ?= 
-#     MY_ANALYTICAL_DIR ?= /u/slmack/ROMSIceShelf_devel/Apps/PIG
 
 #  Sometimes it is desirable to activate one or more CPP options to
 #  run different variants of the same application without modifying
@@ -117,11 +115,6 @@
 
      USE_NETCDF4 ?= on
 
-# For running on Pleiades, specify which node types to compile for
-
-#     USE_BRIDGE ?= on
-#     USE_WELL   ?=
-
 #--------------------------------------------------------------------------
 #  We are going to include a file with all the settings that depend on
 #  the system and the compiler. We are going to build up the name of the
@@ -154,7 +147,7 @@
       BINDIR ?= .
       MAKE_SHAREDLIB = on
 ifdef MAKE_SHAREDLIB
-      LIBDIR ?= /Volumes/insar10/roms/ROMSIceShelf_devel/Lib/FISOC
+      LIBDIR ?= ROMSIceShelf/Lib/FISOC
 endif
 
 #==========================================================================
@@ -511,14 +504,6 @@ $(SCRATCH_DIR):
 # FFLAGS += -Mprof=mpi,hwcts              # pgi
 # FFLAGS += -Mprof=func                   # pgi
   FFLAGS += -mcmodel=medium    #-shared-intel
-
-ifdef USE_BRIDGE
-  FFLAGS += -xAVX
-endif
-
-ifdef USE_WELL
-  FFLAGS += -xCORE-xAVX2
-endif
 
 #--------------------------------------------------------------------------
 #  Special CPP macros for mod_strings.F
