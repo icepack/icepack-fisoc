@@ -31,7 +31,7 @@ ENV COMPILER=${MY_ROMS_DIR}/Compilers \
     USE_LARGE=on \
     USE_NETCDF4=on \
     USE_MY_LIBS=on \
-    MY_HEADER_DIR=/home/user/Applications/ \
+    MY_HEADER_DIR=/home/user/Applications \
     MY_ANALYTICAL_DIR=${MY_ROMS_DIR}/ROMS/Functionals \
     BINDIR=${MY_ROMS_DIR}/install \
     SCRATCH_DIR=${MY_ROMS_DIR}/Build \
@@ -69,5 +69,5 @@ ENV LD_LIBRARY_PATH="${LIBDIR}:${LD_LIBRARY_PATH}"
 
 RUN mkdir bin
 RUN mkdir Output
-RUN cd FISOC && make && make install
+RUN cd FISOC && make clean && make install
 
