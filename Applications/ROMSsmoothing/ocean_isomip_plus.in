@@ -760,8 +760,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /home/user/Applications/ROMSsmoothing/isomip_grd.v8.1km.nc
-     ININAME == /home/user/Applications/ROMSsmoothing/isomip_075_rst.nc
+     GRDNAME == /home/user/Applications/isomip_grd.v8.1km.nc
+     ININAME == /home/user/Applications/isomip_075_rst.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc

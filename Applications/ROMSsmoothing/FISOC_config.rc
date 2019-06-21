@@ -15,7 +15,7 @@
 
 
 ### OM options ###
-  OM_configFile:          /home/user/Applications/ROMSsmoothing/ocean_isomip_plus.in
+  OM_configFile:          /home/user/Applications/ocean_isomip_plus.in
   OM_stdoutFile:          ocean.out
   FISOC_OM_ReqVars:       OM_temperature_l0 OM_bed
   OM_ReqVars_stagger:     CENTER CENTER

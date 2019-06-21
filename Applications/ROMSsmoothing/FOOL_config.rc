@@ -11,7 +11,7 @@
 # 
 # forcingDataFormat NYI, assume netcdf
 # 
-  ForcingDir:          /home/user/Applications/ROMSsmoothing/
+  ForcingDir:          /home/user/Applications/
   ForcingDataFormat:   netcdf
   ForcingBaseName:     isomip_grd.v8.1km.unsmooth
 

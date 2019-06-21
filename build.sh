@@ -1,4 +1,4 @@
-## Set environment variables for input or output folders ##
+## Set environment variables for input or output folders ??##
 
 ## User chooses which docker image to build ##
 
