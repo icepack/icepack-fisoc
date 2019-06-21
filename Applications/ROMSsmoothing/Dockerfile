@@ -8,6 +8,15 @@ RUN sudo chown -R user:user FISOC .[^.]*
 COPY ROMSIceShelf /home/user/ROMSIceShelf
 RUN sudo chown -R user:user ROMSIceShelf .[^.]*
 
+# Copy application specific files into container image
+COPY Applications/ROMSsmoothing /home/user/Applications
+RUN sudo chown -R user:user Applications .[^.]*
+
+# Within container, overwrite standard files with specific application files
+RUN cp Applications/makefile ROMSIceShelf/ && \
+    cp Applications/FISOC_config.rc FISOC/ && \
+    cp Applications/FOOL_config.rc FISOC/
+
 # Build ROMS
 ENV ROMS_APPLICATION=ISOMIP_PLUS
 ENV MY_ROMS_DIR=/home/user/ROMSIceShelf
@@ -22,7 +31,7 @@ ENV COMPILER=${MY_ROMS_DIR}/Compilers \
     USE_LARGE=on \
     USE_NETCDF4=on \
     USE_MY_LIBS=on \
-    MY_HEADER_DIR=${MY_ROMS_DIR}/ROMS/Include \
+    MY_HEADER_DIR=/home/user/Applications/ROMSsmoothing \
     MY_ANALYTICAL_DIR=${MY_ROMS_DIR}/ROMS/Functionals \
     BINDIR=${MY_ROMS_DIR}/install \
     SCRATCH_DIR=${MY_ROMS_DIR}/Build \
@@ -41,7 +50,7 @@ ENV ESMFMKFILE=/home/user/esmf/lib/libO/Linux.gfortran.64.openmpi.default/esmf.m
 ENV CPPFLAGS="${CPPFLAGS} -D FISOC_MPI -D ROMS_MASKING -D ROMS_DDDT" \
     FFLAGS="${FFLAGS} -fbacktrace -g -O0 -fbounds-check -Wall" \
     FISOC_MPI="yes" \
-    FISOC_ISM="dummy" \
+    FISOC_ISM="FOOL" \
     FISOC_ISM_LIBS="" \
     FISOC_ISM_LIBPATH=/home/user \
     FISOC_ISM_INCLUDE=/home/user \
@@ -59,9 +68,6 @@ ENV CPPFLAGS="${CPPFLAGS} -D FISOC_MPI -D ROMS_MASKING -D ROMS_DDDT" \
 ENV LD_LIBRARY_PATH="${LIBDIR}:${LD_LIBRARY_PATH}"
 
 RUN mkdir bin
+RUN mkdir Output
 RUN cd FISOC && make && make install
 
-COPY fool-roms/FISOC_config.rc /home/user/FISOC_config.rc
-COPY fool-roms/ocean_isomip_plus_sm.in /home/user/ocean_isomip_plus_sm.in
-COPY fool-roms/isomip_grd.v6.2km.nc /home/user/isomip_grd.v6.2km.nc
-COPY fool-roms/ocean3.grd.v02.nc /home/user/ocean3.grd.v02.nc

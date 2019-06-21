@@ -760,8 +760,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == Applications/ROMSsmoothing/isomip_grd.v8.1km.nc
-     ININAME == Applications/ROMSsmoothing/isomip_075_rst.nc
+     GRDNAME == /home/user/Applications/ROMSsmoothing/isomip_grd.v8.1km.nc
+     ININAME == /home/user/Applications/ROMSsmoothing/isomip_075_rst.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -810,12 +810,12 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! Output NetCDF file names, [1:Ngrids].
 
      GSTNAME == ocean_gst.nc
-     RSTNAME == /nobackupp2/slmack/Output/069/isomip_rst.nc
-     HISNAME == /nobackupp2/slmack/Output/069/isomip_his.nc
+     RSTNAME == /home/user/Output/isomip_rst.nc
+     HISNAME == /home/user/Output/isomip_his.nc
      TLMNAME == ocean_tlm.nc
      TLFNAME == ocean_tlf.nc
      ADJNAME == ocean_adj.nc
-     AVGNAME == /nobackupp2/slmack/Output/069/isomip_avg.nc
+     AVGNAME == /home/user/Output/isomip_avg.nc
      DIANAME == ocean_dia.nc
      STANAME == ocean_sta.nc
      FLTNAME == ocean_flt.nc

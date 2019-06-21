@@ -63,7 +63,7 @@
 #  If application header files is not located in "ROMS/Include",
 #  provide an alternate directory FULL PATH.
 
-     MY_HEADER_DIR ?= Applications/ROMSsmoothing/
+     MY_HEADER_DIR ?= /home/user/Applications/ROMSsmoothing/
 
 #  If your application requires analytical expressions and they are
 #  not located in "ROMS/Functionals", provide an alternate directory.
@@ -147,7 +147,7 @@
       BINDIR ?= .
       MAKE_SHAREDLIB = on
 ifdef MAKE_SHAREDLIB
-      LIBDIR ?= ROMSIceShelf/Lib/FISOC
+      LIBDIR ?= /home/user/ROMSIceShelf/Lib/FISOC
 endif
 
 #==========================================================================
