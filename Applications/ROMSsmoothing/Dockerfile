@@ -71,3 +71,15 @@ RUN mkdir bin
 RUN mkdir Output
 RUN cd FISOC && make clean && make install
 
+## Application is now ready to run ##
+## To run interactively, comment out the rest of this file and ##
+## use docker run command as described in icepack-fisoc README ##
+
+## Docker run command: ##
+##docker run --interactive --tty --volume /media/mnemoniko/Oolong/Output/test:/home/user/Output fool-roms-smooth bash ##
+
+## NOTE - THIS IS NOT CURRENTLY WORKING, ROMS cannot create a history file when the volume is included in the docker run command ##
+
+#CMD cd FISOC && mpirun -np 4 FISOC_caller > tooMuchOutput.out
+
+
