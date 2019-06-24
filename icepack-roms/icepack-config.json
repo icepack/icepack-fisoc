@@ -1,0 +1,10 @@
+{
+    "mesh": "domain.msh",
+    "dirichlet_ids": [3],
+    "side_wall_ids": [2, 4],
+    "thickness": "thickness.tif",
+    "accumulation": "accumulation.tif",
+    "melt": "melt.tif",
+    "velocity_x": "velocity_x.tif",
+    "velocity_y": "velocity_y.tif"
+}
