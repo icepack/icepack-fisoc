@@ -5,6 +5,7 @@
   ISM_configFile:         FOOL_config.rc
 #  ISM_stdoutFile:         ISM.out
   FISOC_ISM_ReqVars:      ISM_z_l0 ISM_z_l0_previous
+  ISM_reqVars:            ISM_z_l0 ISM_z_l0_previous
   ISM_varNames:           zice zice_initial
   FISOC_ISM_DerVars:      ISM_dddt
   ISM_gridType:           ESMF_grid

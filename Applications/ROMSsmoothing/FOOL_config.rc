@@ -22,5 +22,5 @@
   # currently hard coded, but other options for the grid could be added.
   ISM_gridLayout:      ocean3
   # partitioning in i and j directions (best that it matches the ROMS .in tiles)
-  NtileI:              10
+  NtileI:              2
   NtileJ:              2
