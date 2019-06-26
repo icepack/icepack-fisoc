@@ -1,6 +1,7 @@
 FROM icepack/firedrake:buster
 
-RUN sudo apt-get update && sudo apt-get install -yq libnetcdff6 libnetcdff-dev
+RUN sudo apt-get update --fix-missing && \
+    sudo apt-get install -yq libnetcdff6 libnetcdff-dev
 
 ENV ESMF_DIR=/home/user/esmf \
     ESMF_COMM=openmpi \
