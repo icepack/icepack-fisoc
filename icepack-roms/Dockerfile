@@ -45,12 +45,16 @@ RUN tar xvf gmsh-4.3.0-Linux64.tgz && \
 # Build and install the icepack Fortran wrapper
 RUN git clone --recursive https://github.com/icepack/icepack-fortran && \
     cd icepack-fortran && \
-    git checkout f2a5f3605379fb66040dbcf48008aee4b0dc5864
+    git checkout 658202195eb9d482b12c901d10c55223ffffd201
 RUN mkdir -p icepack-fortran/build && \
     cd icepack-fortran/build && \
     cmake .. && \
     make && \
     sudo make install
+
+# Create the initial data for the glacier model
+COPY icepack-roms/make_ism_input_data.py /home/user/make_ism_input_data.py
+RUN python3 make_ism_input_data.py
 
 # Copy FISOC into the image
 COPY FISOC /home/user/FISOC
