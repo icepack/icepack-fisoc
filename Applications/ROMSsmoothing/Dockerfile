@@ -76,10 +76,11 @@ RUN cd FISOC && make clean && make install
 ## use docker run command as described in icepack-fisoc README ##
 
 ## Docker run command: ##
-##docker run --interactive --tty --volume /media/mnemoniko/Oolong/Output/test:/home/user/Output fool-roms-smooth bash ##
+##docker run --interactive --tty --volume /media/mnemoniko/Oolong/Output/test:/home/user/test fool-roms-smooth bash ##
 
-## NOTE - THIS IS NOT CURRENTLY WORKING, ROMS cannot create a history file when the volume is included in the docker run command ##
+## NOTE - ROMS cannot create simulation output files in the synced volume. ##
+## Current workaround: copy paste output files from /home/user/Output to synced volume ##
 
-#CMD cd FISOC && mpirun -np 4 FISOC_caller > tooMuchOutput.out
+#CMD cd FISOC && mpirun -np 4 FISOC_caller
 
 
