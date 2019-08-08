@@ -1,7 +1,7 @@
-FROM icepack/firedrake:buster
+FROM icepack/firedrake-python3.7:0.1.2
 
-RUN sudo apt-get update --fix-missing && \
-    sudo apt-get install -yq libnetcdff6 libnetcdff-dev
+RUN sudo apt-get update --fix-missing
+RUN sudo apt-get install -yq libnetcdff6 libnetcdff-dev
 
 ENV ESMF_DIR=/home/user/esmf \
     ESMF_COMM=openmpi \
