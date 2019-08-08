@@ -16,3 +16,4 @@ docker build --tag dummy-dummy --file dummy-dummy/Dockerfile .
 docker build --tag dummy-roms --file dummy-roms/Dockerfile .
 docker build --tag fool-roms --file fool-roms/Dockerfile .
 docker build --tag elmer-roms --file elmer-roms/Dockerfile .
+docker build --tag icepack-dummy --file icepack-dummy/Dockerfile .
