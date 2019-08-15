@@ -92,10 +92,10 @@
 # undef FISOC_DSDT
 # undef FISOC_DRAFT
 # define ICESHELF_MORPH
-# define WET_DRY 
-# define LIMIT_BSTRESS
-# define LIMIT_ICESTRESS
-# define AVERAGES
+# undef WET_DRY 
+# undef LIMIT_BSTRESS
+# undef LIMIT_ICESTRESS
+# undef AVERAGES
 #endif
 
 #undef  ANA_VMIX

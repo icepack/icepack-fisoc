@@ -610,19 +610,19 @@ Hout(idBott) == T T T T T T T T T F F F F F F F
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged
 ! fields into AVERAGE output file.
 
-Aout(idUvel) == T       ! u                  3D U-velocity
-Aout(idVvel) == T       ! v                  3D V-velocity
+Aout(idUvel) == F       ! u                  3D U-velocity
+Aout(idVvel) == F       ! v                  3D V-velocity
 Aout(idu3dE) == F       ! u_eastward         3D U-eastward  at RHO-points
 Aout(idv3dN) == F       ! v_northward        3D V-northward at RHO-points
-Aout(idWvel) == T       ! w                  3D W-velocity
-Aout(idOvel) == T       ! omega              omega vertical velocity
-Aout(idUbar) == T       ! ubar               2D U-velocity
-Aout(idVbar) == T       ! vbar               2D V-velocity
+Aout(idWvel) == F       ! w                  3D W-velocity
+Aout(idOvel) == F       ! omega              omega vertical velocity
+Aout(idUbar) == F       ! ubar               2D U-velocity
+Aout(idVbar) == F       ! vbar               2D V-velocity
 Aout(idu2dE) == F       ! ubar_eastward      2D U-eastward  at RHO-points
 Aout(idv2dN) == F       ! vbar_northward     2D V-northward at RHO-points
-Aout(idFsur) == T       ! zeta               free-surface
+Aout(idFsur) == F       ! zeta               free-surface
 
-Aout(idTvar) == T T     ! temp, salt         temperature and salinity
+Aout(idTvar) == F F     ! temp, salt         temperature and salinity
 
 Aout(idUsms) == F       ! sustr              surface U-stress
 Aout(idVsms) == F       ! svstr              surface V-stress
@@ -697,7 +697,7 @@ Aout(iHVTav) == F F     ! Hvom_temp, ...     tracer volume flux, <Hvom*t>
 ! Logical switches (TRUE/FALSE) to activate writing of extra inert passive
 ! tracers other than biological and sediment tracers into the AVERAGE file.
 
- Aout(inert) == T       ! dye_01, ...        inert passive tracers
+ Aout(inert) == F       ! dye_01, ...        inert passive tracers
 
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged,
 ! 2D momentum (ubar,vbar) diagnostic terms into DIAGNOSTIC output file.
