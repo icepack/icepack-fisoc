@@ -76,7 +76,8 @@ RUN cd FISOC && make clean && make install
 ## use docker run command as described in icepack-fisoc README ##
 
 ## Docker run command: ##
-##docker run --interactive --tty --volume /media/mnemoniko/Oolong/Output/test:/home/user/test fool-roms-smooth bash ##
+##docker run --interactive --tty fool-roms-smooth bash ##
+## To connect to local storage, link volumes with '--volume /local/dir:/container/dir' ##
 
 ## NOTE - ROMS cannot create simulation output files in the synced volume. ##
 ## Current workaround: copy paste output files from /home/user/Output to synced volume ##
