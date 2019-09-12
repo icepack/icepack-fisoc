@@ -26,7 +26,7 @@ RUN mkdir -p icepack-fortran/build && \
 COPY FISOC /home/user/FISOC
 RUN sudo chown -R user:user FISOC .[^.]*
 
-ENV ESMFMKFILE=/home/user/esmf/lib/libO/Linux.gfortran.64.openmpi.default/esmf.mk \
+ENV ESMFMKFILE=/home/user/esmf/lib/libO/Linux.gfortran.64.mpich3.default/esmf.mk \
     FISOC_DIR=/home/user/FISOC
 
 ENV CPPFLAGS="${CPPFLAGS} -D FISOC_MPI" \

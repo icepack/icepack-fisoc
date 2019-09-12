@@ -1,12 +1,13 @@
-FROM icepack/firedrake-python3.7:0.1.2
+FROM icepack/firedrake-python3.7:0.1.3
 
 RUN sudo apt-get update --fix-missing
 RUN sudo apt-get install -yq libnetcdff6 libnetcdff-dev
 
 ENV ESMF_DIR=/home/user/esmf \
-    ESMF_COMM=openmpi \
+    ESMF_COMM=mpich3 \
     EMSF_PIO=internal \
-    ESMF_F90LINKLIBS="-lmpi_cxx"
+    ESMF_F90LINKLIBS="-lmpicxx" \
+    ESMF_F90LINKPATHS="-L/usr/lib/x86_64-linux-gnu"
 
 RUN git clone https://git.code.sf.net/p/esmf/esmf esmf && \
     cd esmf && \

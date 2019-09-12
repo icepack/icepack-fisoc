@@ -44,7 +44,7 @@ ENV COMPILER=${MY_ROMS_DIR}/Compilers \
     MY_CPP_FLAGS=" -DFISOC -DSDT -DDDT" \
     USE_MPI=on \
     USE_MPIF90=on \
-    which_MPI=openmpi \
+    which_MPI=mpich3 \
     FORT=gfortran \
     USE_LARGE=on \
     USE_NETCDF4=on \
@@ -62,7 +62,7 @@ RUN mkdir -p ${LIBDIR} && \
     cd ROMSIceShelf && make
 
 # Build FISOC
-ENV ESMFMKFILE=/home/user/esmf/lib/libO/Linux.gfortran.64.openmpi.default/esmf.mk \
+ENV ESMFMKFILE=/home/user/esmf/lib/libO/Linux.gfortran.64.mpich3.default/esmf.mk \
     FISOC_DIR=/home/user/FISOC
 
 ENV CPPFLAGS="${CPPFLAGS} -D FISOC_MPI -D ROMS_DSDT -D ROMS_DDDT" \
